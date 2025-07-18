@@ -1,0 +1,42 @@
+// top-down
+
+class Solution {
+    public static boolean checkSubsequenceSum(int N, int[] arr, int K) {
+     //top-down
+     int dp[][]=new int[N][K+1];
+     for(int i=0;i<N;i++)
+     {
+         dp[i][0]=1;
+     }
+     for(int i=1;i<=K;i++)
+     {
+         if(i==arr[0])
+         {
+             dp[0][i]=1;
+         }
+         else
+         {
+             dp[0][i]=2;
+         }
+     }
+     for(int i=1;i<N;i++)
+     {
+         for(int j=1;j<=K;j++)
+         {
+             int pick=2;
+             if(arr[i]<=j)
+             {
+                 pick=dp[i-1][j-arr[i]];
+                 if(pick==1)
+                 {
+                     dp[i][j]=1;
+                     continue;
+                 }
+             }
+             int nopick=dp[i-1][j];
+             dp[i][j]=nopick;
+         }
+     }
+     return (dp[N-1][K]==1);
+    }
+}
