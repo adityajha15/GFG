@@ -1,0 +1,85 @@
+//using recursion
+class Solution {
+    public static boolean checkSubsequenceSum(int N, int[] arr, int K) {
+      return recur(N-1,arr,K);
+    }
+    public static boolean recur(int idx,int arr[],int K)
+    {
+        if(K==0)
+        {
+            return true;
+        }
+        if(idx==0)
+        {
+            if(K==arr[idx])
+            {
+                return true;
+            }
+            return false;
+        }
+        boolean pick=false;
+        if(arr[idx]<=K)
+        {
+            pick=recur(idx-1,arr,K-arr[idx]);
+            if(pick)
+            {
+                return true;
+            }
+        }
+        boolean nopick=recur(idx-1,arr,K);
+        return nopick;
+    }
+}
+
+
+//top-down
+// User function Template for Java
+
+class Solution {
+    public static boolean checkSubsequenceSum(int N, int[] arr, int K) {
+     //top-down approach
+     int dp[][]=new int[N][K+1];
+     return recur(arr,K,N-1,dp);
+    }
+    //0->not visited
+    //1->found
+    //2->Not found
+    public static boolean recur(int arr[],int K,int idx,int dp[][])
+    {
+        if(K==0)
+        {
+            dp[idx][K]=1;
+            return true;
+        }
+        if(idx==0)
+        {
+            if(K==arr[idx])
+            {
+                dp[idx][K]=1;
+                return true;
+            }
+            dp[idx][K]=2;
+            return false;
+        }
+        if(dp[idx][K]!=0)
+        {
+            return (dp[idx][K]==1);
+        }
+        boolean pick=false;
+        if(arr[idx]<=K)
+        {
+            pick=recur(arr,K-arr[idx],idx-1,dp);
+            if(pick)
+            {
+                dp[idx][K]=1;
+                return true;
+            }
+        }
+        boolean nopick=recur(arr,K,idx-1,dp);
+        dp[idx][K]=(nopick==true)?1:2;
+        return nopick;
+    }
+}
+
+//bottom-up
+
